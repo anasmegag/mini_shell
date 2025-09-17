@@ -5,7 +5,7 @@ import os
 
 def check_command(command):
     res = command.split(' ')
-    if res[0] not in ['ls', 'cd', 'pwd' , 'mkdir', 'cat','head','tail','rm','echo','mv']:
+    if res[0] not in ['ls', 'cd', 'pwd' , 'mkdir', 'cat','head','tail','rm','echo','mv','rmdir']:
         return False
     return True
 def excute_commande(command):
@@ -39,6 +39,11 @@ def excute_commande(command):
     if res[0]=='mv':
         os.rename(res[1],res[2])
         s= res[1]+' renamed to '+res[2]
+    if res[0]=='rmdir':
+        if res[1] not in os.listdir():
+            return 'directory not found'
+        os.rmdir(res[1])
+        s= res[1]+' removed successfully'
     if res[0]=='cat':
         if res[1] not in os.listdir():
             return 'file not found'
@@ -69,10 +74,6 @@ def excute_commande(command):
             f.write(s)
         return 'output redirected to '+res[idx+1]
     return s
-    
-  
-
-    return res
 def main():
     while True:
         command = input("min_lnx> ")
